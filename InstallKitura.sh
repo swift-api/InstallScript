@@ -141,8 +141,8 @@ swiftc -version
 #SWIFT_VERSION=$(<version)
 #echo "Swift version is set to $SWIFT_VERSION"
 
-# Installing swift-corelibs-libdispatch
-echo "Installing swift-corelibs-libdispatch"
+# Build & Install swift-corelibs-libdispatch
+echo "Build & Install swift-corelibs-libdispatch"
 
 cd $HOME
 
