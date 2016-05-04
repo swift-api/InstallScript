@@ -151,16 +151,16 @@ if [ ! -d "$HOME/swift-corelibs-libdispatch" ]; then
 #  
   cd swift-corelibs-libdispatch
   git submodule init
-  git submodule update
-#  # doesn't work
-#    
-  echo "Autogen"
-  source ./autogen.sh
-  echo "configure with toolchain at $SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr"
-  ./configure --with-swift-toolchain=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr --prefix=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr && make && make install
+  git submodule update   
 else
+  cd swift-corelibs-libdispatch
   git pull
 fi
+
+echo "Autogen"
+source ./autogen.sh
+echo "configure with toolchain at $SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr"
+./configure --with-swift-toolchain=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr --prefix=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr && make && make install
 
 # Clone and build Swift Package Manager
 #cd $HOME
