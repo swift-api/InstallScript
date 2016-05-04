@@ -1,55 +1,68 @@
 #!/bin/bash
 
 # If any commands fail, we want the shell script to exit immediately.
-set -e
+#set -e
 
 # Set environment variables for image
 # add at the end of ~/.bashrc
 
-if [[ -z "$SWIFT_SNAPSHOT" ]]; then 
-  echo "Setting SWIFT_SNAPSHOT"
-  echo 'export SWIFT_SNAPSHOT=swift-DEVELOPMENT-SNAPSHOT-2016-03-24-a' >> ~/.bashrc 
-  export SWIFT_SNAPSHOT=swift-DEVELOPMENT-SNAPSHOT-2016-03-24-a
-else 
-  echo "SWIFT_SNAPSHOT is set to '$SWIFT_SNAPSHOT'"; 
-fi
+echo "Running install Kitura"
+echo "# Running install Kitura" >> ~/.bashrc
 
-if [[ -z "$UBUNTU_VERSION" ]]; then 
-  echo "Setting UBUNTU_VERSION"
-  echo 'export UBUNTU_VERSION=ubuntu15.10' >> ~/.bashrc 
-  export UBUNTU_VERSION=ubuntu15.10
-else 
-  echo "UBUNTU_VERSION is set to '$UBUNTU_VERSION'"; 
-fi
-
-if [[ -z "$UBUNTU_VERSION_NO_DOTS" ]]; then 
-  echo "Setting UBUNTU_VERSION_NO_DOTS"
-  echo 'export UBUNTU_VERSION_NO_DOTS=ubuntu1510' >> ~/.bashrc 
-  export UBUNTU_VERSION_NO_DOTS=ubuntu1510
-else 
-  echo "UBUNTU_VERSION_NO_DOTS is set to '$UBUNTU_VERSION_NO_DOTS'"; 
-fi
-
-if [[ -z "$CORELIBS_LIBDISPATCH_BRANCH" ]]; then 
-  echo "Setting CORELIBS_LIBDISPATCH_BRANCH"
-  echo 'export CORELIBS_LIBDISPATCH_BRANCH=master' >> ~/.bashrc 
-  export CORELIBS_LIBDISPATCH_BRANCH=master
-else 
-  echo "CORELIBS_LIBDISPATCH_BRANCH is set to '$CORELIBS_LIBDISPATCH_BRANCH'"; 
-fi
-
-if [[ -z "$SPM_BRANCH" ]]; then 
-  echo "Setting SPM_BRANCH"
-  echo 'export SPM_BRANCH=master' >> ~/.bashrc 
-  export SPM_BRANCH=master
-else 
-  echo "SPM_BRANCH is set to '$SPM_BRANCH'"; 
-fi
-
-cd $HOME
+# Updating system
+echo "Updating system"
 
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get upgrade -y
+
+# Setting enviromental variables
+echo "Setting enviromental variables"
+
+if [[ -z "$SWIFT_SNAPSHOT" ]]; then
+  export SWIFT_SNAPSHOT=swift-DEVELOPMENT-SNAPSHOT-2016-03-24-a
+  echo "Setting SWIFT_SNAPSHOT to $SWIFT_SNAPSHOT"
+  echo "export SWIFT_SNAPSHOT=$SWIFT_SNAPSHOT" >> ~/.bashrc
+else
+  echo "SWIFT_SNAPSHOT is set to $SWIFT_SNAPSHOT";
+fi
+
+if [[ -z "$UBUNTU_VERSION" ]]; then
+  export UBUNTU_VERSION=ubuntu15.10
+  echo "Setting UBUNTU_VERSION to $UBUNTU_VERSION"
+  echo "export UBUNTU_VERSION=$UBUNTU_VERSION" >> ~/.bashrc
+else
+  echo "UBUNTU_VERSION is set to $UBUNTU_VERSION";
+fi
+
+if [[ -z "$UBUNTU_VERSION_NO_DOTS" ]]; then
+  export UBUNTU_VERSION_NO_DOTS=ubuntu1510
+  echo "Setting UBUNTU_VERSION_NO_DOTS to $UBUNTU_VERSION_NO_DOTS"
+  echo "export UBUNTU_VERSION_NO_DOTS=$UBUNTU_VERSION_NO_DOTS" >> ~/.bashrc
+else
+  echo "UBUNTU_VERSION_NO_DOTS is set to $UBUNTU_VERSION_NO_DOTS";
+fi
+
+if [[ -z "$CORELIBS_LIBDISPATCH_BRANCH" ]]; then
+  export CORELIBS_LIBDISPATCH_BRANCH=full-overlay-pr
+  echo "Setting CORELIBS_LIBDISPATCH_BRANCH to $CORELIBS_LIBDISPATCH_BRANCH"
+  echo "export CORELIBS_LIBDISPATCH_BRANCH=$CORELIBS_LIBDISPATCH_BRANCH" >> ~/.bashrc
+else
+  echo "CORELIBS_LIBDISPATCH_BRANCH is set to $CORELIBS_LIBDISPATCH_BRANCH";
+fi
+
+if [[ -z "$SPM_BRANCH" ]]; then
+  export SPM_BRANCH=master
+  echo "Setting SPM_BRANCH to $SPM_BRANCH"
+  echo "export SPM_BRANCH=$SPM_BRANCH" >> ~/.bashrc
+else
+  echo "SPM_BRANCH is set to $SPM_BRANCH";
+fi
+
+# Installing system dependancies
+echo "Installing system dependancies"
+
+# Swift dependancies
+echo "Swift dependancies"
 sudo apt-get install -y libcurl4-gnutls-dev
 sudo apt-get install -y gcc-4.8
 sudo apt-get install -y g++-4.8
@@ -70,52 +83,12 @@ sudo apt-get install -y vim
 sudo apt-get install -y wget
 sudo apt-get install -y telnet
 
-# Install Swift compiler
-wget https://swift.org/builds/development/$UBUNTU_VERSION_NO_DOTS/$SWIFT_SNAPSHOT/$SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
-tar xzvf $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
-
-# add at the end of ~/.bashrc
-# swift dir has to be at the begining of PATH as there is a clash with swift from openstack
-export PATH=$HOME/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr/bin:$PATH
-echo 'export PATH=$HOME/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr/bin:$PATH' >> ~/.bashrc 
-swiftc -version
-
-# Clone and install swift-corelibs-libdispatch
-cd $HOME
-git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/apple/swift-corelibs-libdispatch.git
-cd swift-corelibs-libdispatch
-#git pull
-git submodule init
-git submodule update
-sh ./autogen.sh
-./configure --with-swift-toolchain=$HOME/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr --prefix=$HOME/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr
-make
-make install
-
-# Clone and build Swift Package Manager
-cd $HOME
-git clone -b $SPM_BRANCH https://github.com/apple/swift-package-manager.git
-cd swift-package-manager/
-git checkout tags/$SWIFT_SNAPSHOT
-./Utilities/bootstrap --prefix $HOME/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr install
-# Swift has been installed
-
-# install Kitura
-if [[ -z "$KITURA_BRANCH" ]]; then 
-  echo "Setting KITURA_BRANCH"
-  echo 'export KITURA_BRANCH=develop' >> ~/.bashrc 
-  export KITURA_BRANCH=develop
-else 
-  echo "KITURA_BRANCH is set to '$KITURA_BRANCH'"; 
-fi
-
+# Kitura dependancies
+echo "Kitura dependancies"
 sudo apt-get install -y openjdk-7-jdk
 sudo apt-get install -y libhttp-parser-dev
 sudo apt-get install -y libhiredis-dev
 sudo apt-get install -y libcurl4-openssl-dev
-
-# these files have to be modified. Move to gist
-wget https://raw.githubusercontent.com/IBM-Swift/kitura-ubuntu-docker/master/clone_build_kitura.sh
 
 sudo apt-get install -y autoconf
 sudo apt-get install -y libtool
@@ -125,34 +98,102 @@ sudo apt-get install -y libdispatch-dev
 sudo apt-get install -y libdispatch0
 sudo apt-get install -y libhttp-parser-dev
 sudo apt-get install -y libcurl4-openssl-dev
-sudo apt-get install -y libhiredis-dev 
+sudo apt-get install -y libhiredis-dev
 sudo apt-get install -y libbsd-dev
 
-make build
-
-# MongoDB
+# MongoDB dependancies
+echo "MongoDB dependancies"
 sudo apt-get install -y pkg-config
 sudo apt-get install -y libssl-dev
 sudo apt-get install -y libsasl2-dev
-wget https://github.com/mongodb/mongo-c-driver/releases/download/1.3.0/mongo-c-driver-1.3.0.tar.gz
-tar xzf mongo-c-driver-1.3.0.tar.gz
-cd mongo-c-driver-1.3.0
-./configure
 
-# Hiredis
-#sudo apt-get install -y libhiredis-dev
+# Installing swiftenv
+echo "Installing swiftenv"
 
-# check out sample source
-if [[ -z "$SOURCE_BRANCH" ]]; then 
+cd $HOME
+
+if [ ! -d "$HOME/.swiftenv" ]; then
+  git clone https://github.com/kylef/swiftenv.git ~/.swiftenv
+fi
+
+if [[ -z "$SWIFTENV_ROOT" ]]; then
+  export SWIFTENV_ROOT=$HOME/.swiftenv
+  echo "export SWIFTENV_ROOT=$SWIFTENV_ROOT" >> ~/.bashrc
+  echo "Setting SWIFTENV_ROOT to $SWIFTENV_ROOT"
+  
+  export PATH="$SWIFTENV_ROOT/bin:$PATH"
+  echo "export PATH=$SWIFTENV_ROOT/bin:$PATH" >> ~/.bashrc
+  
+  eval "$(swiftenv init -)"
+  echo 'eval "$(swiftenv init -)"' >> ~/.bashrc
+else
+  echo "SWIFTENV_ROOT is set to $SWIFTENV_ROOT";
+fi
+
+# Install Swift compiler
+swiftenv install $SWIFT_SNAPSHOT
+swiftc -version
+
+# NOTE: following block of code is not neded currently, yet it will remain for the timebeing 
+
+# Getting swift version as a variable
+#cd $SWIFTENV_ROOT
+#SWIFT_VERSION=$(<version)
+#echo "Swift version is set to $SWIFT_VERSION"
+
+# Installing swift-corelibs-libdispatch
+#echo "Installing swift-corelibs-libdispatch"
+
+#cd $HOME
+
+#if [ ! -d "$HOME/swift-corelibs-libdispatch" ]; then
+#  #git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/apple/swift-corelibs-libdispatch.git
+#  git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/swift-api/swift-corelibs-libdispatch.git
+#  
+#  cd swift-corelibs-libdispatch
+#  git submodule init
+#  git submodule update
+#  # doesn't work
+#    
+#  echo "Autogen"
+#  source ./autogen.sh
+#  echo "configure with toolchain at $SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr"
+#  ./configure --with-swift-toolchain=$SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr --prefix=$SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr && make && make install
+#else
+#  git pull
+#fi
+
+# Clone and build Swift Package Manager
+#cd $HOME
+#git clone -b $SPM_BRANCH https://github.com/apple/swift-package-manager.git
+#cd swift-package-manager/
+#git checkout tags/$SWIFT_SNAPSHOT
+#./Utilities/bootstrap --prefix $SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr install
+# Swift has been installed
+
+# Installing sample server code
+echo "Installing SampleServer"
+if [[ -z "$SOURCE_BRANCH" ]]; then
   echo "Setting SOURCE_BRANCH"
-  echo 'export SOURCE_BRANCH=master' >> ~/.bashrc 
+  echo 'export SOURCE_BRANCH=master' >> ~/.bashrc
   export SOURCE_BRANCH=master
-else 
-  echo "SOURCE_BRANCH is set to '$SOURCE_BRANCH'"; 
+else
+  echo "SOURCE_BRANCH is set to '$SOURCE_BRANCH'";
 fi
 
 cd $HOME
-git clone -b $SOURCE_BRANCH https://bitbucket.org/jakub-tomanik-tooploox/kitura-server.git
+
+if [ ! -d "$HOME/SampleServer" ]; then
+  git clone -b $SOURCE_BRANCH https://github.com/swift-api/SampleServer.git
+  cd $HOME/SampleServer
+else
+  cd $HOME/SampleServer
+  git pull
+  rm -Rf Packages/
+fi
+
+make
+./.build/debug/KituraServer
 
 # install Golang
 #sudo apt-get install golang
