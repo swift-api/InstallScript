@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # If any commands fail, we want the shell script to exit immediately.
-#set -e
+set +e
 
 # Set environment variables for image
 # add at the end of ~/.bashrc
