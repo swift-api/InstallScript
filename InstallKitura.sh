@@ -12,8 +12,8 @@ echo "# Running install Kitura" >> ~/.bashrc
 # Updating system
 echo "Updating system"
 
-sudo apt-get update
-sudo apt-get upgrade -y
+sudo apt-get -qq update
+sudo apt-get -qq upgrade -y
 
 # Setting enviromental variables
 echo "Setting enviromental variables"
