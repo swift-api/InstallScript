@@ -203,7 +203,7 @@ make
 
 # before running our code we need to manualy copy some libraries - that is a temporary fix
 sudo ln -s $HOME/SampleServer/.build/debug/libCHttpParser.so /usr/lib/libCHttpParser.so
-sudo ln -s $HOME/SampleServer/.build/debug/libCHiredis.so.so /usr/lib/libCHiredis.so.so
+sudo ln -s $HOME/SampleServer/.build/debug/libCHiredis.so /usr/lib/libCHiredis.so
 
 # Kill server if it's already running
 pkill SampleServer
