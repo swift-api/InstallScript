@@ -19,7 +19,7 @@ sudo apt-get upgrade -y
 echo "Setting enviromental variables"
 
 if [[ -z "$SWIFT_SNAPSHOT" ]]; then
-  export SWIFT_SNAPSHOT=swift-DEVELOPMENT-SNAPSHOT-2016-03-24-a
+  export SWIFT_SNAPSHOT=DEVELOPMENT-SNAPSHOT-2016-04-25-a
   echo "Setting SWIFT_SNAPSHOT to $SWIFT_SNAPSHOT"
   echo "export SWIFT_SNAPSHOT=$SWIFT_SNAPSHOT" >> ~/.bashrc
 else
@@ -43,7 +43,7 @@ else
 fi
 
 if [[ -z "$CORELIBS_LIBDISPATCH_BRANCH" ]]; then
-  export CORELIBS_LIBDISPATCH_BRANCH=full-overlay-pr
+  export CORELIBS_LIBDISPATCH_BRANCH=experimental/foundation
   echo "Setting CORELIBS_LIBDISPATCH_BRANCH to $CORELIBS_LIBDISPATCH_BRANCH"
   echo "export CORELIBS_LIBDISPATCH_BRANCH=$CORELIBS_LIBDISPATCH_BRANCH" >> ~/.bashrc
 else
@@ -142,26 +142,25 @@ swiftc -version
 #echo "Swift version is set to $SWIFT_VERSION"
 
 # Installing swift-corelibs-libdispatch
-#echo "Installing swift-corelibs-libdispatch"
+echo "Installing swift-corelibs-libdispatch"
 
-#cd $HOME
+cd $HOME
 
-#if [ ! -d "$HOME/swift-corelibs-libdispatch" ]; then
-#  #git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/apple/swift-corelibs-libdispatch.git
-#  git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/swift-api/swift-corelibs-libdispatch.git
+if [ ! -d "$HOME/swift-corelibs-libdispatch" ]; then
+  git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/swift-api/swift-corelibs-libdispatch.git
 #  
-#  cd swift-corelibs-libdispatch
-#  git submodule init
-#  git submodule update
+  cd swift-corelibs-libdispatch
+  git submodule init
+  git submodule update
 #  # doesn't work
 #    
-#  echo "Autogen"
-#  source ./autogen.sh
-#  echo "configure with toolchain at $SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr"
-#  ./configure --with-swift-toolchain=$SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr --prefix=$SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr && make && make install
-#else
-#  git pull
-#fi
+  echo "Autogen"
+  source ./autogen.sh
+  echo "configure with toolchain at $SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr"
+  ./configure --with-swift-toolchain=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr --prefix=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr && make && make install
+else
+  git pull
+fi
 
 # Clone and build Swift Package Manager
 #cd $HOME
@@ -173,6 +172,7 @@ swiftc -version
 
 # Installing sample server code
 echo "Installing SampleServer"
+
 if [[ -z "$SOURCE_BRANCH" ]]; then
   echo "Setting SOURCE_BRANCH"
   echo 'export SOURCE_BRANCH=master' >> ~/.bashrc
@@ -193,7 +193,10 @@ else
 fi
 
 make
-./.build/debug/KituraServer
+
+# Running sample server code
+echo "Running SampleServer"
+./.build/debug/SampleServer
 
 # install Golang
 #sudo apt-get install golang
