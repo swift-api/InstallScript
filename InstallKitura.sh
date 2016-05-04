@@ -162,13 +162,20 @@ source ./autogen.sh
 echo "configure with toolchain at $SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr"
 ./configure --with-swift-toolchain=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr --prefix=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr && make && make install
 
-# Clone and build Swift Package Manager
+# Build & Install Swift Package Manager
+#echo "Build & Install Swift Package Manager"
+#
 #cd $HOME
-#git clone -b $SPM_BRANCH https://github.com/apple/swift-package-manager.git
-#cd swift-package-manager/
-#git checkout tags/$SWIFT_SNAPSHOT
-#./Utilities/bootstrap --prefix $SWIFTENV_ROOT/versions/$SWIFT_VERSION/usr install
-# Swift has been installed
+#
+#if [ ! -d "$HOME/swift-package-manager" ]; then
+#  git clone -b $SPM_BRANCH https://github.com/apple/swift-package-manager.git
+#  cd swift-package-manager/  
+#else
+#  cd swift-package-manager/
+#  git pull
+#fi
+#git checkout tags/swift-$SWIFT_SNAPSHOT
+#./Utilities/bootstrap --prefix $SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr install
 
 # Installing sample server code
 echo "Installing SampleServer"
@@ -193,6 +200,9 @@ else
 fi
 
 make
+
+# before running our code we need to manualy copy some libraries - that is a temporary fix
+sudo ln -s $HOME/SampleServer/.build/debug/libCHttpParser.so /usr/lib/libCHttpParser.so
 
 # Running sample server code
 cd $HOME
