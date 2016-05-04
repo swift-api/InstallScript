@@ -63,49 +63,49 @@ echo "Installing system dependancies"
 
 # Swift dependancies
 echo "Swift dependancies"
-sudo apt-get install -y libcurl4-gnutls-dev
-sudo apt-get install -y gcc-4.8
-sudo apt-get install -y g++-4.8
-sudo apt-get install -y libcurl3
-sudo apt-get install -y libkqueue-dev
-sudo apt-get install -y openssh-client
-sudo apt-get install -y automake
-sudo apt-get install -y libbsd-dev
-sudo apt-get install -y git
-sudo apt-get install -y build-essential
-sudo apt-get install -y libtool
-sudo apt-get install -y clang
-sudo apt-get install -y libicu-dev
-sudo apt-get install -y curl
-sudo apt-get install -y libglib2.0-dev
-sudo apt-get install -y libblocksruntime-dev
-sudo apt-get install -y vim
-sudo apt-get install -y wget
-sudo apt-get install -y telnet
+sudo apt-get -qq install -y libcurl4-gnutls-dev
+sudo apt-get -qq install -y gcc-4.8
+sudo apt-get -qq install -y g++-4.8
+sudo apt-get -qq install -y libcurl3
+sudo apt-get -qq install -y libkqueue-dev
+sudo apt-get -qq install -y openssh-client
+sudo apt-get -qq install -y automake
+sudo apt-get -qq install -y libbsd-dev
+sudo apt-get -qq install -y git
+sudo apt-get -qq install -y build-essential
+sudo apt-get -qq install -y libtool
+sudo apt-get -qq install -y clang
+sudo apt-get -qq install -y libicu-dev
+sudo apt-get -qq install -y curl
+sudo apt-get -qq install -y libglib2.0-dev
+sudo apt-get -qq install -y libblocksruntime-dev
+sudo apt-get -qq install -y vim
+sudo apt-get -qq install -y wget
+sudo apt-get -qq install -y telnet
 
 # Kitura dependancies
 echo "Kitura dependancies"
-sudo apt-get install -y openjdk-7-jdk
-sudo apt-get install -y libhttp-parser-dev
-sudo apt-get install -y libhiredis-dev
-sudo apt-get install -y libcurl4-openssl-dev
+sudo apt-get -qq install -y openjdk-7-jdk
+sudo apt-get -qq install -y libhttp-parser-dev
+sudo apt-get -qq install -y libhiredis-dev
+sudo apt-get -qq install -y libcurl4-openssl-dev
 
-sudo apt-get install -y autoconf
-sudo apt-get install -y libtool
-sudo apt-get install -y libkqueue-dev
-sudo apt-get install -y libkqueue0
-sudo apt-get install -y libdispatch-dev
-sudo apt-get install -y libdispatch0
-sudo apt-get install -y libhttp-parser-dev
-sudo apt-get install -y libcurl4-openssl-dev
-sudo apt-get install -y libhiredis-dev
-sudo apt-get install -y libbsd-dev
+sudo apt-get -qq install -y autoconf
+sudo apt-get -qq install -y libtool
+sudo apt-get -qq install -y libkqueue-dev
+sudo apt-get -qq install -y libkqueue0
+sudo apt-get -qq install -y libdispatch-dev
+sudo apt-get -qq install -y libdispatch0
+sudo apt-get -qq install -y libhttp-parser-dev
+sudo apt-get -qq install -y libcurl4-openssl-dev
+sudo apt-get -qq install -y libhiredis-dev
+sudo apt-get -qq install -y libbsd-dev
 
 # MongoDB dependancies
 echo "MongoDB dependancies"
-sudo apt-get install -y pkg-config
-sudo apt-get install -y libssl-dev
-sudo apt-get install -y libsasl2-dev
+sudo apt-get -qq install -y pkg-config
+sudo apt-get -qq install -y libssl-dev
+sudo apt-get -qq install -y libsasl2-dev
 
 # Installing swiftenv
 echo "Installing swiftenv"
@@ -199,7 +199,7 @@ echo "Running SampleServer"
 ./.build/debug/SampleServer
 
 # install Golang
-#sudo apt-get install golang
+#sudo apt-get -qq install golang
 #export GOROOT=/usr/lib/go
 #export PATH=$PATH:$GOROOT/bin
 #go get github.com/adnanh/webhook
