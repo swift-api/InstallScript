@@ -195,8 +195,9 @@ fi
 make
 
 # Running sample server code
+cd $HOME
 echo "Running SampleServer"
-./.build/debug/SampleServer
+$HOME/SampleServer/.build/debug/SampleServer
 
 # install Golang
 #sudo apt-get -qq install golang
