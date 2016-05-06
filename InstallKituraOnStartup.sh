@@ -3,7 +3,7 @@
 # This script is for unnatended installs during system boot up
 
 # If any commands fail, we want the shell script to exit immediately.
-set -e
+set +e
 
 echo "Installin Kitura in boot only mode"
 
