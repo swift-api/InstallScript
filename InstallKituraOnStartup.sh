@@ -13,34 +13,6 @@ echo "Updating system"
 sudo apt-get -qq update
 sudo apt-get -qq upgrade -y
 
-# Setting enviromental variables
-echo "Setting enviromental variables"
-
-if [ ! -d "$HOME" ]; then
-  export HOME=/root
-fi
-
-if [[ -z "$SWIFT_SNAPSHOT" ]]; then
-  export SWIFT_SNAPSHOT=DEVELOPMENT-SNAPSHOT-2016-04-25-a
-  echo "Setting SWIFT_SNAPSHOT to $SWIFT_SNAPSHOT"
-else
-  echo "SWIFT_SNAPSHOT is set to $SWIFT_SNAPSHOT";
-fi
-
-if [[ -z "$CORELIBS_LIBDISPATCH_BRANCH" ]]; then
-  export CORELIBS_LIBDISPATCH_BRANCH=experimental/foundation
-  echo "Setting CORELIBS_LIBDISPATCH_BRANCH to $CORELIBS_LIBDISPATCH_BRANCH"
-else
-  echo "CORELIBS_LIBDISPATCH_BRANCH is set to $CORELIBS_LIBDISPATCH_BRANCH";
-fi
-
-if [[ -z "$SPM_BRANCH" ]]; then
-  export SPM_BRANCH=master
-  echo "Setting SPM_BRANCH to $SPM_BRANCH"
-else
-  echo "SPM_BRANCH is set to $SPM_BRANCH";
-fi
-
 # Installing system dependancies
 echo "Installing system dependancies"
 
@@ -90,6 +62,34 @@ sudo apt-get -qq install -y pkg-config
 sudo apt-get -qq install -y libssl-dev
 sudo apt-get -qq install -y libsasl2-dev
 
+# Setting enviromental variables
+echo "Setting enviromental variables"
+
+if [ ! -d "$HOME" ]; then
+  export HOME=/root
+fi
+
+if [[ -z "$SWIFT_SNAPSHOT" ]]; then
+  export SWIFT_SNAPSHOT=DEVELOPMENT-SNAPSHOT-2016-04-25-a
+  echo "Setting SWIFT_SNAPSHOT to $SWIFT_SNAPSHOT"
+else
+  echo "SWIFT_SNAPSHOT is set to $SWIFT_SNAPSHOT";
+fi
+
+if [[ -z "$CORELIBS_LIBDISPATCH_BRANCH" ]]; then
+  export CORELIBS_LIBDISPATCH_BRANCH=experimental/foundation
+  echo "Setting CORELIBS_LIBDISPATCH_BRANCH to $CORELIBS_LIBDISPATCH_BRANCH"
+else
+  echo "CORELIBS_LIBDISPATCH_BRANCH is set to $CORELIBS_LIBDISPATCH_BRANCH";
+fi
+
+if [[ -z "$SPM_BRANCH" ]]; then
+  export SPM_BRANCH=master
+  echo "Setting SPM_BRANCH to $SPM_BRANCH"
+else
+  echo "SPM_BRANCH is set to $SPM_BRANCH";
+fi
+
 # Installing swiftenv
 echo "Installing swiftenv"
 
@@ -111,16 +111,16 @@ else
   echo "SWIFTENV_ROOT is set to $SWIFTENV_ROOT";
 fi
 
-# Install Swift compiler
-swiftenv install $SWIFT_SNAPSHOT
-swiftc -version
-
-# NOTE: following block of code is not neded currently, yet it will remain for the timebeing 
-
 # Getting swift version as a variable
-#cd $SWIFTENV_ROOT
-#SWIFT_VERSION=$(<version)
-#echo "Swift version is set to $SWIFT_VERSION"
+cd $SWIFTENV_ROOT
+SWIFT_VERSION=$(<version)
+echo "Swift version is set to $SWIFT_VERSION"
+
+# Install Swift compiler
+# that will probably fail if we're switching between different versions of swift
+if [[ "$SWIFT_VERSION" -ne "$SWIFT_SNAPSHOT" ]]; then 
+  swiftenv install $SWIFT_SNAPSHOT
+fi
 
 # Build & Install swift-corelibs-libdispatch
 echo "Build & Install swift-corelibs-libdispatch"
@@ -129,12 +129,12 @@ cd $HOME
 
 if [ ! -d "$HOME/swift-corelibs-libdispatch" ]; then
   git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/swift-api/swift-corelibs-libdispatch.git
-#  
+ 
   cd swift-corelibs-libdispatch
   git submodule init
   git submodule update   
 else
-  cd swift-corelibs-libdispatch
+  cd $HOME/swift-corelibs-libdispatch
   git pull
 fi
 
@@ -165,7 +165,7 @@ if [[ -z "$SOURCE_BRANCH" ]]; then
   echo "Setting SOURCE_BRANCH"
   export SOURCE_BRANCH=master
 else
-  echo "SOURCE_BRANCH is set to '$SOURCE_BRANCH'";
+  echo "SOURCE_BRANCH is set to '$SOURCE_BRANCH'"
 fi
 
 cd $HOME
@@ -173,20 +173,24 @@ cd $HOME
 if [ ! -d "$HOME/SampleServer" ]; then
   git clone -b $SOURCE_BRANCH https://github.com/swift-api/SampleServer.git
   cd $HOME/SampleServer
+  make build
 else
   cd $HOME/SampleServer
   git pull
-  rm -Rf Packages/
+  make refetch
+  make build
 fi
 
 make
 
+echo "patching /usr/lib"
 # before running our code we need to manualy copy some libraries - that is a temporary fix
 sudo ln -s $HOME/SampleServer/.build/debug/libCHttpParser.so /usr/lib/libCHttpParser.so
 sudo ln -s $HOME/SampleServer/.build/debug/libCHiredis.so /usr/lib/libCHiredis.so
 
 # Kill server if it's already running
-pkill SampleServer
+# this script runs on boot, no need for that
+#pkill SampleServer
 
 # Running sample server code
 cd $HOME
