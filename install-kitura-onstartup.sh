@@ -2,14 +2,15 @@
 
 # This script is for unnatended installs during system boot up
 
-# If any commands fail, we want the shell script to exit immediately.
+# set -e if you want the shell script to exit immediately will any commands fail.
 set +e
 
-echo "Installin Kitura in boot only mode"
+echo "Installing Kitura during system startup"
 
 # Updating system
 echo "Updating system"
 
+# -qq is a switch for a `quiet` mode. Remove them if debugging
 sudo apt-get -qq update
 sudo apt-get -qq upgrade -y
 
@@ -57,6 +58,8 @@ sudo apt-get -qq install -y libhiredis-dev
 sudo apt-get -qq install -y libbsd-dev
 
 # MongoDB dependancies
+# We are using pure Swift driver for mongo so following are not strictly required.
+# However OpenSSL ic common dependency hence I'm leaving it for now
 echo "MongoDB dependancies"
 sudo apt-get -qq install -y pkg-config
 sudo apt-get -qq install -y libssl-dev
