@@ -37,11 +37,6 @@ echo "patching /usr/lib"
 sudo ln -s $HOME/SampleServer/.build/debug/libCHttpParser.so /usr/lib/libCHttpParser.so
 sudo ln -s $HOME/SampleServer/.build/debug/libCHiredis.so /usr/lib/libCHiredis.so
 
-# Kill server if it's already running
-# this script runs on boot, no need for that
-#pkill SampleServer
-
 # Running sample server code
-cd $HOME
-echo "Running SampleServer"
-$HOME/SampleServer/.build/debug/SampleServer
+#cd $HOME
+#$HOME/SampleServer/.build/debug/SampleServer
