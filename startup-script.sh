@@ -8,4 +8,6 @@ else
   cd ./InstallScript
   git pull
 fi
-source ./InstallScript/InstallKituraOnStartup.sh
+source ./InstallScript/install-kitura-onstartup.sh
+source ./InstallScript/install-server-onstartup.sh
+source ./InstallScript/sample-server-service.sh
