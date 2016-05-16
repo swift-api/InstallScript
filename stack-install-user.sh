@@ -4,7 +4,7 @@
 set -e
 
 # NOTE: this script depends on install-kitura-ephemeral.sh
-source ./install-kitura-ephemeral.sh
+source ./stack-install-ephemeral.sh
 
 # Preserve enviromental variables
 echo "Preserving enviromental variables"

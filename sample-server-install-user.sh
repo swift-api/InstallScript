@@ -4,7 +4,7 @@
 set -e
 
 # NOTE: this script depends on install-server-ephemeral.sh
-source ./install-server-ephemeral.sh
+source ./sample-server-install-ephemeral.sh
 
 # Preserve enviromental variables
 echo "Preserving enviromental variables"

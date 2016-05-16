@@ -26,5 +26,7 @@ sudo -u $SWIFT_USER ./sample-server-install-ephemeral.sh
 
 # upload sample server to bucket
 
+# reload instance-group
+
 # terminate
 sudo poweroff
