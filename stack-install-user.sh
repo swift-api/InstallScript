@@ -18,22 +18,6 @@ else
   echo "export SWIFT_SNAPSHOT=$SWIFT_SNAPSHOT" >> ~/.bashrc
 fi
 
-if [[ -z "$UBUNTU_VERSION" ]]; then
-  echo "UBUNTU_VERSION is not set"
-  exit 1
-else
-  echo "UBUNTU_VERSION is set to $UBUNTU_VERSION";
-  echo "export UBUNTU_VERSION=$UBUNTU_VERSION" >> ~/.bashrc
-fi
-
-if [[ -z "$UBUNTU_VERSION_NO_DOTS" ]]; then
-  echo "UBUNTU_VERSION_NO_DOTS is not set"
-  exit 1
-else
-  echo "UBUNTU_VERSION_NO_DOTS is set to $UBUNTU_VERSION_NO_DOTS";
-  echo "export UBUNTU_VERSION_NO_DOTS=$UBUNTU_VERSION_NO_DOTS" >> ~/.bashrc
-fi
-
 if [[ -z "$CORELIBS_LIBDISPATCH_BRANCH" ]]; then
   echo "CORELIBS_LIBDISPATCH_BRANCH is not set"
   exit 1
