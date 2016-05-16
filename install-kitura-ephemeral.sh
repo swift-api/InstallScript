@@ -70,6 +70,7 @@ echo "Setting enviromental variables"
 
 if [ ! -d "$HOME" ]; then
   export HOME=/root
+  echo "Setting HOME to $HOME"
 fi
 
 if [[ -z "$SWIFT_SNAPSHOT" ]]; then
