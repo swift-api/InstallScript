@@ -7,6 +7,7 @@ else
   cd ./InstallScript
   git pull
 fi
+
 pushd .
 source ./InstallScript/install-kitura-onstartup.sh
 popd
