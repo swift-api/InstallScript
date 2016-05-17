@@ -1,5 +1,5 @@
 [Unit]
-Description=Sample Kitura Server
+Description=Sample Server
 
 [Service]
 ExecStart=/root/SampleServer/.build/debug/SampleServer

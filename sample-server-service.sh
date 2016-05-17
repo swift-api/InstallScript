@@ -8,7 +8,7 @@ cd $HOME
 
 cat >$HOME/sample-server.service << EOF
 [Unit]
-Description=Sample Kitura Server
+Description=Sample Server
 
 [Service]
 ExecStart=$HOME/SampleServer/.build/debug/SampleServer
