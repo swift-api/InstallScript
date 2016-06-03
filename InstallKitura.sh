@@ -210,7 +210,7 @@ pkill SampleServer
 
 #Redirecting port
 echo "Redirecting port 80 to 8090"
-iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8090
+sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8090
 
 # Running sample server code
 cd $HOME
