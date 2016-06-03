@@ -191,7 +191,7 @@ fi
 cd $HOME
 
 if [ ! -d "$HOME/SampleServer" ]; then
-  git clone -b $SOURCE_BRANCH https://github.com/swift-api/SampleServer.git
+  git clone -b $SOURCE_BRANCH https://github.com/jknthn/SampleServer.git
   cd $HOME/SampleServer
 else
   cd $HOME/SampleServer
@@ -207,6 +207,10 @@ sudo ln -s $HOME/SampleServer/.build/debug/libCHiredis.so /usr/lib/libCHiredis.s
 
 # Kill server if it's already running
 pkill SampleServer
+
+#Redirecting port
+echo "Redirecting port 80 to 8090"
+iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8090
 
 # Running sample server code
 cd $HOME
