@@ -1,7 +1,8 @@
 [Unit]
-Description=Sample Kitura Server
+Description=Sample Script Build Server
 
 [Service]
+USER=
 ExecStart=/root/SampleServer/.build/debug/SampleServer
 Restart=on-abort
 

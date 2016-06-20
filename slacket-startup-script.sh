@@ -15,5 +15,5 @@ pushd .
 source ./InstallScript/install-server-onstartup.sh
 popd
 pushd .
-source ./InstallScript/sample-server-service.sh
+source ./InstallScript/slacket-service.sh
 popd

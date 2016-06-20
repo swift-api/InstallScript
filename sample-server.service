@@ -1,9 +1,0 @@
-[Unit]
-Description=Sample Server
-
-[Service]
-ExecStart=/root/SampleServer/.build/debug/SampleServer
-Restart=on-abort
-
-[Install]
-WantedBy=multi-user.target

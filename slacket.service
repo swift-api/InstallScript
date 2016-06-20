@@ -1,0 +1,9 @@
+[Unit]
+Description=Slacket
+
+[Service]
+ExecStart=/root/Slacket/.build/debug/Slacket
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

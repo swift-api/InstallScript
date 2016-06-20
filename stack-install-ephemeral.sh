@@ -18,7 +18,7 @@ if [ ! -d "$HOME" ]; then
 fi
 
 if [[ -z "$SWIFT_SNAPSHOT" ]]; then
-  export SWIFT_SNAPSHOT=DEVELOPMENT-SNAPSHOT-2016-04-25-a
+  export SWIFT_SNAPSHOT=DEVELOPMENT-SNAPSHOT-2016-05-09-a
   echo "Setting SWIFT_SNAPSHOT to $SWIFT_SNAPSHOT"
 else
   echo "SWIFT_SNAPSHOT is set to $SWIFT_SNAPSHOT";
@@ -31,12 +31,12 @@ else
   echo "CORELIBS_LIBDISPATCH_BRANCH is set to $CORELIBS_LIBDISPATCH_BRANCH";
 fi
 
-if [[ -z "$SPM_BRANCH" ]]; then
-  export SPM_BRANCH=master
-  echo "Setting SPM_BRANCH to $SPM_BRANCH"
-else
-  echo "SPM_BRANCH is set to $SPM_BRANCH";
-fi
+#if [[ -z "$SPM_BRANCH" ]]; then
+#  export SPM_BRANCH=master
+#  echo "Setting SPM_BRANCH to $SPM_BRANCH"
+#else
+#  echo "SPM_BRANCH is set to $SPM_BRANCH";
+#fi
 
 # Installing swiftenv
 echo "Installing swiftenv"
@@ -76,11 +76,8 @@ echo "Build & Install swift-corelibs-libdispatch"
 cd $HOME
 
 if [ ! -d "$HOME/swift-corelibs-libdispatch" ]; then
-  git clone -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/swift-api/swift-corelibs-libdispatch.git
- 
-  cd swift-corelibs-libdispatch
-  git submodule init
-  git submodule update   
+  git clone --recursive -b $CORELIBS_LIBDISPATCH_BRANCH https://github.com/apple/swift-corelibs-libdispatch.git
+  cd swift-corelibs-libdispatch  
 else
   cd $HOME/swift-corelibs-libdispatch
   git pull

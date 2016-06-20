@@ -6,12 +6,12 @@
 echo "creating sample-server.service"
 cd $HOME
 
-cat >$HOME/sample-server.service << EOF
+cat >$HOME/slacket.service << EOF
 [Unit]
 Description=Sample Server
 
 [Service]
-ExecStart=$HOME/SampleServer/.build/debug/SampleServer
+ExecStart=$HOME/Slacket/.build/debug/Slacket
 Restart=on-abort
 
 [Install]
