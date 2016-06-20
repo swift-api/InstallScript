@@ -26,13 +26,13 @@ else
   echo "export CORELIBS_LIBDISPATCH_BRANCH=$CORELIBS_LIBDISPATCH_BRANCH" >> ~/.bashrc
 fi
 
-if [[ -z "$SPM_BRANCH" ]]; then
-  echo "SPM_BRANCH is not set"
-  exit 1
-else
-  echo "SPM_BRANCH is set to $SPM_BRANCH";
-  echo "export SPM_BRANCH=$SPM_BRANCH" >> ~/.bashrc
-fi
+#if [[ -z "$SPM_BRANCH" ]]; then
+#  echo "SPM_BRANCH is not set"
+#  exit 1
+#else
+#  echo "SPM_BRANCH is set to $SPM_BRANCH";
+#  echo "export SPM_BRANCH=$SPM_BRANCH" >> ~/.bashrc
+#fi
 
 if [[ -z "$SWIFTENV_ROOT" ]]; then
   echo "SWIFTENV_ROOT is not set"
