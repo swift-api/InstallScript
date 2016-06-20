@@ -88,6 +88,10 @@ source ./autogen.sh
 echo "configure with toolchain at $SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr"
 ./configure --with-swift-toolchain=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr --prefix=$SWIFTENV_ROOT/versions/$SWIFT_SNAPSHOT/usr && make && make install
 
+#Redirecting port
+echo "Redirecting port 80 to 8090"
+sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8090
+
 # Build & Install Swift Package Manager
 #echo "Build & Install Swift Package Manager"
 #
