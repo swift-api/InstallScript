@@ -43,3 +43,5 @@ else
   echo "export PATH=$SWIFTENV_ROOT/bin:$PATH" >> ~/.bashrc
   echo 'eval "$(swiftenv init -)"' >> ~/.bashrc
 fi
+
+echo "Stack installed in user space"
